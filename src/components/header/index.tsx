@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Header() {
   return (
     <header className='flex items-center castello-light p-10 shadow-md h-25'>
