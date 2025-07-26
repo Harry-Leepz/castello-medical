@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { mockPubMedAbstracts } from "../mock-data/pubmedMockData";
+
 /**
  * Custom hook for fetching PubMed article abstracts
  *
@@ -21,16 +23,29 @@ import { useQuery } from "@tanstack/react-query";
  * ```
  */
 
-export function usePubMedAbstract(pmid: string | null) {
+export function usePubMedAbstract(pmid: string | null, useMock = true) {
   return useQuery<string>({
     queryKey: ["pubmedAbstract", pmid],
     queryFn: async () => {
+      if (!pmid) throw new Error("PMID is required");
+
+      if (useMock) {
+        const mock = mockPubMedAbstracts[pmid];
+        if (!mock) throw new Error(`No mock abstract for PMID ${pmid}`);
+
+        // ✅ Just return the string abstract
+        return new Promise<string>((resolve) =>
+          setTimeout(() => resolve(mock.abstract), 300)
+        );
+      }
+
+      // fallback to real API if not using mock
       const res = await fetch(
         `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=${pmid}&retmode=text&rettype=abstract`
       );
       return res.text();
     },
-    enabled: !!pmid, // only run if pmid is provided
+    enabled: !!pmid,
     staleTime: 1000 * 60 * 10,
   });
 }

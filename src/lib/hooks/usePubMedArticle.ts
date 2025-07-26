@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-
 import type {
   PubMedFilters,
   PubMedArticle,
   PubMedSummaryResponse,
 } from "../types";
+
+import { mockPubMedArticles } from "../mock-data/pubmedMockData";
 
 /**
  * Custom hook for fetching paginated PubMed articles with AI-related research focus
@@ -40,20 +41,30 @@ import type {
  * );
  * ```
  */
-
 export function usePubMedArticles(
   filters: PubMedFilters,
-  pagination: { page: number; resultsPerPage: number }
+  pagination: { page: number; resultsPerPage: number },
+  useMock = true
 ) {
   const { page, resultsPerPage } = pagination;
   const retstart = (page - 1) * resultsPerPage;
 
   return useQuery<PubMedArticle[]>({
-    queryKey: ["pubmedArticles", filters, page],
+    queryKey: ["pubmedArticles", filters, page, useMock],
     queryFn: async () => {
+      if (useMock) {
+        // Simulate pagination from mock data
+        const start = retstart;
+        const end = retstart + resultsPerPage;
+        const paginated = mockPubMedArticles.slice(start, end);
+        return new Promise((resolve) =>
+          setTimeout(() => resolve(paginated), 300)
+        );
+      }
+
       const searchTerm = buildSearchQuery(filters);
 
-      // 1. Search for article IDs
+      //  Fetch article IDs
       const searchUrl = new URL(
         "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
       );
@@ -69,7 +80,7 @@ export function usePubMedArticles(
       const ids: string[] = searchData?.esearchresult?.idlist ?? [];
       if (!ids.length) return [];
 
-      // 2. Fetch article summaries
+      // Fetch summaries
       const summaryUrl = new URL(
         "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
       );
