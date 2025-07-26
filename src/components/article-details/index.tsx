@@ -4,7 +4,8 @@ import { usePubMedAbstract } from "../../lib/hooks/usePubMedAbstract";
 export default function ArticleDetailPanel() {
   const { selectedArticle, setSelectedArticle } = usePubMedExplorer();
   const { data: abstract, isLoading } = usePubMedAbstract(
-    selectedArticle?.uid ?? null
+    selectedArticle?.uid ?? null,
+    true
   );
   if (!selectedArticle) return null;
 
