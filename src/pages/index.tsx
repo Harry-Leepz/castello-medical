@@ -16,7 +16,6 @@ export default function Home() {
     setFilters,
     articles,
     setSelectedArticle,
-
     isLoading,
     error,
   } = usePubMedExplorer();
