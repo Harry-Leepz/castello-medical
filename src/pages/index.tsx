@@ -7,6 +7,7 @@ import { usePubMedExplorer } from "../lib/context/usePubMedExplorer";
 import { tableHeaders } from "../lib/constants";
 import type { PubMedArticle } from "../lib/types";
 import { formatArticleValue } from "../lib/utils";
+import PaginationControls from "../components/pagination-controls";
 
 export default function Home() {
   const {
@@ -37,6 +38,7 @@ export default function Home() {
               onRowClick={setSelectedArticle}
               formatCell={(article, key) => formatArticleValue(article, key)}
             />
+            <PaginationControls />
           </>
         )}
       </MainLayout>
