@@ -1,13 +1,19 @@
 import FilterForm from "../components/filter-form";
 import Header from "../components/header";
 import MainLayout from "../components/layout";
+import ResultsTable from "../components/results-table";
 
 import { usePubMedExplorer } from "../lib/context/usePubMedExplorer";
+import { tableHeaders } from "../lib/constants";
+import type { PubMedArticle } from "../lib/types";
+import { formatArticleValue } from "../lib/utils";
 
 export default function Home() {
   const {
     filters,
     setFilters,
+    articles,
+    setSelectedArticle,
 
     isLoading,
     error,
@@ -24,7 +30,14 @@ export default function Home() {
         ) : error ? (
           <p className='p-4 text-red-600'>Error loading articles.</p>
         ) : (
-          <></>
+          <>
+            <ResultsTable<PubMedArticle>
+              data={articles}
+              headers={tableHeaders}
+              onRowClick={setSelectedArticle}
+              formatCell={(article, key) => formatArticleValue(article, key)}
+            />
+          </>
         )}
       </MainLayout>
     </div>
