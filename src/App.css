@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.castello-dark {
+  color: #002b74;
+}
+
+.castello-light {
+  background-color: #dce9ff;
+}
