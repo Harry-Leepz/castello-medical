@@ -9,15 +9,6 @@ import { useQuery } from "@tanstack/react-query";
  *
  * @param pmid - The PubMed unique identifier (PMID) for the article
  *               Can be null to disable fetching (useful for conditional rendering)
- *
- * @returns React Query result object containing:
- *   - data: String containing the full abstract text in plain text format
- *   - isLoading: Boolean indicating if the request is in progress
- *   - error: Error object if the request failed
- *   - isError: Boolean indicating if an error occurred
- *   - refetch: Function to manually refetch the data
- *   - Additional React Query properties for state management
- *
  * @example
  * ```tsx
  * // Basic usage with a known PMID
