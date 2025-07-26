@@ -18,6 +18,8 @@ export type PubMedArticle = {
   authors: { name: string }[];
   pages?: string;
   doi?: string;
+  articleids?: { idtype: string; value: string }[];
+  elocationid?: string;
 };
 
 /**
