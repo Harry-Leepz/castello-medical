@@ -44,7 +44,7 @@ import { mockPubMedArticles } from "../mock-data/pubmedMockData";
 export function usePubMedArticles(
   filters: PubMedFilters,
   pagination: { page: number; resultsPerPage: number },
-  useMock = true
+  useMock = false
 ) {
   const { page, resultsPerPage } = pagination;
   const retstart = (page - 1) * resultsPerPage;
@@ -108,6 +108,11 @@ function buildSearchQuery(filters: PubMedFilters): string {
   if (title) terms.push(`${title}[title]`);
   if (author) terms.push(`${author}[author]`);
   if (journal) terms.push(`${journal}[journal]`);
+
+  // If no filters provided, return a broad search term
+  if (terms.length === 0) {
+    terms.push("Artificial Intelligence[MeSH Terms]");
+  }
 
   return terms.join(" AND ");
 }
