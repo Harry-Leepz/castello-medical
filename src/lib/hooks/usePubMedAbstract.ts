@@ -23,7 +23,7 @@ import { mockPubMedAbstracts } from "../mock-data/pubmedMockData";
  * ```
  */
 
-export function usePubMedAbstract(pmid: string | null, useMock = true) {
+export function usePubMedAbstract(pmid: string | null, useMock = false) {
   return useQuery<string>({
     queryKey: ["pubmedAbstract", pmid],
     queryFn: async () => {
