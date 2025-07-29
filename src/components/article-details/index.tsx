@@ -5,7 +5,7 @@ export default function ArticleDetailPanel() {
   const { selectedArticle, setSelectedArticle } = usePubMedExplorer();
   const { data: abstract, isLoading } = usePubMedAbstract(
     selectedArticle?.uid ?? null,
-    true
+    false
   );
   if (!selectedArticle) return null;
 
